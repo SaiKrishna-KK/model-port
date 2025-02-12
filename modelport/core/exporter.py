@@ -6,42 +6,80 @@ import sys
 import importlib.util
 import inspect
 import pathlib
+from typing import Optional, Dict, Any
+from .model_utils import (
+    detect_framework,
+    get_model_metadata,
+    generate_requirements,
+    validate_onnx_model,
+    save_config
+)
 
-def export_model(model_path, output_dir):
+def export_model(
+    model_path: str,
+    output_dir: str,
+    framework: Optional[str] = None,
+    input_shape: Optional[str] = None,
+    force: bool = False
+) -> str:
     """
-    Export a PyTorch model to ONNX format and prepare a portable capsule.
+    Export a model to ONNX format and prepare a portable capsule.
     
     Args:
-        model_path (str): Path to the PyTorch model file (.pt)
+        model_path (str): Path to the model file
         output_dir (str): Directory where the exported model and assets will be stored
+        framework (Optional[str]): Framework name (auto-detected if not provided)
+        input_shape (Optional[str]): Input shape as comma-separated string (e.g., "1,3,224,224")
+        force (bool): Whether to overwrite existing output directory
         
     Returns:
         str: Path to the output directory containing the exported model
     """
+    if os.path.exists(output_dir) and not force:
+        raise ValueError(f"Output directory {output_dir} already exists. Use --force to overwrite.")
+    
     os.makedirs(output_dir, exist_ok=True)
     
-    # Try to determine if we're in a module context or script context
-    # Check if the environment has the model's class already
+    # Detect framework if not provided
+    if framework is None:
+        framework = detect_framework(model_path)
     
-    # Load the model
-    try:
-        # First try direct loading with weights_only=False
-        model = torch.load(model_path, map_location="cpu", weights_only=False)
-    except Exception as e:
-        # If that fails, try with weights_only=True for newer PyTorch versions
-        print(f"Warning: Could not load model with weights_only=False: {e}")
-        print("Trying with weights_only=True...")
-        model = torch.load(model_path, map_location="cpu", weights_only=True)
-        
-    model.eval()
-
-    # Export to ONNX
-    dummy_input = torch.randn(1, 3, 224, 224)
+    # Get model metadata
+    metadata = get_model_metadata(model_path, framework)
+    
+    # Override input shape if provided
+    if input_shape:
+        try:
+            metadata["input_shape"] = [int(x) for x in input_shape.split(",")]
+        except ValueError:
+            raise ValueError("Input shape must be comma-separated integers")
+    
+    # Export to ONNX if needed
     onnx_path = os.path.join(output_dir, "model.onnx")
-    torch.onnx.export(model, dummy_input, onnx_path)
-
+    if framework == 'pytorch':
+        model = torch.load(model_path, map_location="cpu")
+        model.eval()
+        dummy_input = torch.randn(*metadata["input_shape"])
+        torch.onnx.export(model, dummy_input, onnx_path)
+    elif framework == 'onnx':
+        shutil.copy(model_path, onnx_path)
+    else:
+        raise ValueError(f"Framework {framework} not yet supported for export")
+    
+    # Validate the ONNX model
+    success, error_msg = validate_onnx_model(onnx_path)
+    if not success:
+        raise RuntimeError(f"ONNX model validation failed: {error_msg}")
+    
+    # Save metadata to config.json
+    save_config(metadata, output_dir)
+    
+    # Generate requirements.txt
+    requirements = generate_requirements()
+    with open(os.path.join(output_dir, "requirements.txt"), 'w') as f:
+        f.write(requirements)
+    
     # Copy inference resources
-    # Find the templates directory relative to this file
     module_dir = os.path.dirname(os.path.abspath(__file__))
     package_dir = os.path.dirname(os.path.dirname(module_dir))
     
@@ -61,15 +99,21 @@ def export_model(model_path, output_dir):
             with open(inference_dst, 'w') as f:
                 f.write("""import onnxruntime as ort
 import numpy as np
+import json
+
+# Load model configuration
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 print("Running inference on model.onnx...")
 session = ort.InferenceSession("model.onnx")
 input_name = session.get_inputs()[0].name
 
-dummy_input = np.random.rand(1, 3, 224, 224).astype(np.float32)
+# Create input with correct shape and dtype
+dummy_input = np.random.rand(*config['input_shape']).astype(config['input_dtype'])
 output = session.run(None, {input_name: dummy_input})
 
-print("Inference output shape:", output[0].shape)
+print("Inference output shapes:", [o.shape for o in output])
 print("Inference successful!")
 """)
 
