@@ -1,5 +1,5 @@
 # ModelPort 🧳
-ModelPort lets you export and run your machine learning models **anywhere** — regardless of architecture or operating system.
+ModelPort lets you export and run your machine learning models **anywhere**, regardless of architecture or operating system.
 
 ## ✅ Features
 - Export PyTorch models to ONNX
