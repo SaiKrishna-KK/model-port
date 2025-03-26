@@ -229,7 +229,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📝 Changelog
 
-### v1.5 (June 2023)
+### v1.5 (March 2025)
 - Added framework auto-detection for PyTorch, ONNX, and TensorFlow models
 - Added model validation with `--test` flag
 - Implemented Docker deployment command
@@ -238,7 +238,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Fixed PyTorch dtype handling issues
 - Comprehensive stress testing and unit tests
 
-### v0.1.0 (March 2023)
+### v0.1.0 (March 2025)
 - Initial release
 - Basic PyTorch to ONNX export
 - Simple Docker container generation
