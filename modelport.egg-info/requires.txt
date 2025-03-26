@@ -1,5 +1,0 @@
-torch
-onnx
-onnxruntime
-typer[all]
-numpy
