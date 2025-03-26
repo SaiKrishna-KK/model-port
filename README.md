@@ -37,9 +37,17 @@ This release has undergone extensive testing including:
 - ✅ **Simple CLI Interface** - Quick exports and deployments with smart defaults
 - ✅ **Programmatic API** - Integration into your ML workflows
 
-## 📦 Installation
+## 📚 Documentation
 
-### Using pip (recommended)
+For comprehensive documentation on ModelPort, please refer to the [Documentation Guide](DOCUMENTATION.md). It includes:
+
+- Detailed architecture overview
+- Step-by-step installation instructions
+- Complete API reference
+- Examples and advanced use cases
+- Troubleshooting tips
+
+## 📦 Quick Installation
 
 ```bash
 # Install from PyPI (coming soon)
@@ -47,21 +55,6 @@ pip install modelport
 
 # Or install directly from GitHub
 pip install git+https://github.com/SaiKrishna-KK/model-port.git
-```
-
-### Development Install
-
-```bash
-# Clone the repository
-git clone https://github.com/SaiKrishna-KK/model-port.git
-cd model-port
-
-# Create and activate a conda environment
-conda env create -f modelport/environment.yml
-conda activate modelport_env
-
-# Install in development mode
-pip install -e .
 ```
 
 ## 🚀 Quick Start
@@ -74,12 +67,6 @@ modelport export path/to/model.pt
 
 # Export with validation
 modelport export path/to/model.pt --test
-
-# Customize input shape
-modelport export path/to/model.pt --input-shape 1,3,224,224
-
-# Run the exported model on a specific architecture
-modelport run my_exported_model --arch linux/arm64
 
 # Deploy to Docker Hub
 modelport deploy my_exported_model --tag username/model:latest --push
@@ -104,9 +91,6 @@ export_dir = modelport.export_model(
     test=True  # Validate the model
 )
 
-# Run the model in Docker
-modelport.run_capsule("my_exported_model", "linux/amd64")
-
 # Deploy to Docker Hub
 modelport.deploy_capsule(
     "my_exported_model",
@@ -115,9 +99,9 @@ modelport.deploy_capsule(
 )
 ```
 
-## 📄 ModelPort Capsule Format
+## 📄 Capsule Format Overview
 
-ModelPort packages models in a standardized format with everything needed to run the model:
+ModelPort packages models in a standardized format with everything needed to run them:
 
 ```
 modelport_capsule/
@@ -132,64 +116,13 @@ modelport_capsule/
 │   └── Dockerfile.gpu     # GPU-enabled Docker container
 ```
 
-The `capsule_spec.json` file (new in v1.5) contains structured metadata about the model:
-
-```json
-{
-  "version": "1.0",
-  "name": "resnet18",
-  "framework": "pytorch",
-  "created_at": "2023-06-15T14:32:10.123456",
-  "input_shape": [1, 3, 224, 224],
-  "input_dtype": "float32",
-  "test_results": {
-    "success": true,
-    "input_shape": [1, 3, 224, 224],
-    "output_shapes": [[1, 1000]],
-    "timestamp": "2023-06-15T14:32:15.654321"
-  },
-  "runtime": {
-    "supports_gpu": true,
-    "supports_cpu": true,
-    "supported_platforms": ["linux/amd64", "linux/arm64"]
-  },
-  "deployment": {
-    "image": "modelport/resnet18:latest",
-    "platforms": ["linux/amd64", "linux/arm64"],
-    "gpu_enabled": true
-  }
-}
-```
-
-## 🐳 Docker Setup
-
-ModelPort uses Docker for cross-platform deployment. Make sure you have Docker installed and properly configured:
-
-```bash
-# Make sure Docker is installed
-docker --version
-
-# For Apple Silicon (M1/M2) or other architectures, 
-# enable multi-architecture builds
-modelport/scripts/setup_docker.sh
-```
+For more details about the capsule format, see the [Documentation](DOCUMENTATION.md#capsule-format).
 
 ## 🔧 Supported Architectures
 
 - ✅ **x86_64** (Intel, AMD processors)
 - ✅ **arm64** (Apple M1/M2, AWS Graviton, Jetson, Raspberry Pi)
 - ✅ **NVIDIA GPU** (via CUDA)
-- 🔜 More architectures coming soon!
-
-## 🔮 Completed Features (v1.5)
-
-The following features have been implemented in the v1.5 release:
-
-- ✅ **Framework Auto-Detection** - Automatically identify PyTorch, ONNX, or TensorFlow models
-- ✅ **Model Validation** - Test models against dummy inputs with `--test` flag
-- ✅ **Docker Deployment Command** - `modelport deploy` for pushing to registries
-- ✅ **GPU-Enabled Docker Support** - Generate containers optimized for GPU inference
-- ✅ **Capsule Format V1 Spec** - Standardized metadata format for better interoperability
 
 ## 🔮 Future Roadmap (v2.0 and beyond)
 
@@ -199,24 +132,8 @@ ModelPort is continuously evolving. Here's what we're planning for future releas
 - **TensorFlow Direct Support**: Export TensorFlow models without ONNX conversion
 - **Hugging Face Integration**: Seamless export of HF Transformers models
 - **Native Compilation**: Compile models to native code for maximum performance
-- **Edge Device Support**: Optimized deployment for edge devices
-- **Cloud Deployment**: One-click deployment to cloud providers
 
-### 🔜 Planned for v3.0: Enterprise Features
-- **Model Monitoring**: Track performance and detect drift
-- **Batch Inference**: Optimized batch processing
-- **A/B Testing**: Compare model versions in production
-- **CI/CD Integration**: Automated testing and deployment
-
-## 📊 Performance
-
-In our benchmarks, ModelPort-exported models achieve performance comparable to native models, with the added benefit of portability:
-
-| Architecture | Image Classification (ms) | Object Detection (ms) |
-|--------------|---------------------------|------------------------|
-| x86_64       | 42                        | 156                    |
-| arm64        | 58                        | 203                    |
-| GPU (CUDA)   | 12                        | 45                     |
+For the complete roadmap, see the [Documentation](DOCUMENTATION.md#future-roadmap).
 
 ## 📝 License
 
@@ -226,6 +143,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - The PyTorch team for their excellent work on ONNX export
 - The ONNX community for creating a powerful standard for model interoperability
+- All contributors who have helped make this project better
 
 ## 📝 Changelog
 
