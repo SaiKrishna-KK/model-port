@@ -1,0 +1,37 @@
+2025-03-26 16:52:57,003 - ERROR - TVM not installed: No module named 'tvm'
+2025-03-26 16:52:57,003 - ERROR - To run these tests, install TVM with: conda install -c conda-forge tvm
+2025-03-26 16:52:57,004 - WARNING - TVM not found. Native compilation will not be available.
+2025-03-26 16:52:57,028 - WARNING - TVM not found. Native model execution will not be available.
+2025-03-26 16:52:57,029 - INFO - Created test directories: /Users/k_krishna/Desktop/Project/model-port/tests/stress_test_outputs
+2025-03-26 16:52:57,030 - INFO - Current system architecture: arm64
+2025-03-26 16:52:57,030 - INFO - Python version: 3.11.4 (main, Jul  5 2023, 08:40:20) [Clang 14.0.6 ]
+2025-03-26 16:52:57,030 - INFO - TVM installed: False
+2025-03-26 16:52:57,030 - WARNING - TVM is not installed. Tests will be skipped.
+2025-03-26 16:52:57,030 - WARNING - To run these tests, install TVM with: conda install -c conda-forge tvm
+2025-03-26 16:52:57,030 - INFO - === Testing Large Models ===
+2025-03-26 16:52:57,030 - WARNING - Skipping large models test because TVM is not installed
+2025-03-26 16:52:57,030 - INFO - === Testing Irregular Input Shapes ===
+2025-03-26 16:52:57,030 - WARNING - Skipping irregular shapes test because TVM is not installed
+2025-03-26 16:52:57,030 - INFO - === Testing Error Handling ===
+2025-03-26 16:52:57,030 - INFO - Generating tiny MLP model with input shape (1, 10)...
+2025-03-26 16:52:57,053 - INFO - Successfully generated model: /Users/k_krishna/Desktop/Project/model-port/tests/stress_test_outputs/models/tiny_mlp_10.onnx
+2025-03-26 16:52:57,054 - INFO - Created corrupt model file: /Users/k_krishna/Desktop/Project/model-port/tests/stress_test_outputs/models/corrupt.onnx
+2025-03-26 16:52:57,054 - INFO - Testing compilation of corrupt ONNX file...
+2025-03-26 16:52:57,054 - INFO - Correctly failed on corrupt file with error: TVM is required for native compilation. Install with: pip install apache-tvm
+2025-03-26 16:52:57,054 - INFO - Testing compilation of non-existent file...
+2025-03-26 16:52:57,054 - INFO - Correctly failed on non-existent file with error: TVM is required for native compilation. Install with: pip install apache-tvm
+2025-03-26 16:52:57,054 - WARNING - Skipping TVM-specific error handling tests because TVM is not installed
+2025-03-26 16:52:57,054 - INFO - === Testing Batch Inference ===
+2025-03-26 16:52:57,054 - WARNING - Skipping batch inference test because TVM is not installed
+2025-03-26 16:52:57,054 - INFO - === Testing C++ Inference ===
+2025-03-26 16:52:57,054 - WARNING - Skipping C++ inference test because TVM is not installed
+2025-03-26 16:52:57,054 - INFO - 
+=== Test Summary ===
+2025-03-26 16:52:57,054 - INFO - large_models: ✅ SUCCESS
+2025-03-26 16:52:57,054 - INFO - irregular_shapes: ✅ SUCCESS
+2025-03-26 16:52:57,054 - INFO - error_handling: ✅ SUCCESS
+2025-03-26 16:52:57,054 - INFO - batch_inference: ✅ SUCCESS
+2025-03-26 16:52:57,054 - INFO - cpp_inference: ✅ SUCCESS
+2025-03-26 16:52:57,054 - INFO - 
+Overall: ✅ ALL TESTS PASSED
+2025-03-26 16:52:57,054 - INFO - Cleaning up test directories...

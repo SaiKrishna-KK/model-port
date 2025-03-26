@@ -1,6 +1,6 @@
 # ModelPort v2.0 Release Notes
 
-We're excited to announce the release of ModelPort v2.0, introducing native compilation capabilities for deploying machine learning models with zero Python dependencies!
+I'm excited to announce the release of ModelPort v2.0, introducing native compilation capabilities for deploying machine learning models with zero Python dependencies!
 
 ## What's New in v2.0
 
