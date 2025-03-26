@@ -1,12 +1,23 @@
 import torch
-import tensorflow as tf
-import onnx
 import numpy as np
 from typing import Dict, Any, Tuple, Optional
 import json
 import os
 import subprocess
 from pathlib import Path
+
+# Optional imports
+try:
+    import tensorflow as tf
+    TENSORFLOW_AVAILABLE = True
+except ImportError:
+    TENSORFLOW_AVAILABLE = False
+
+try:
+    import onnx
+    ONNX_AVAILABLE = True
+except ImportError:
+    ONNX_AVAILABLE = False
 
 def detect_framework(model_path: str) -> str:
     """
@@ -50,27 +61,61 @@ def get_model_metadata(model_path: str, framework: str) -> Dict[str, Any]:
     }
     
     if framework == 'pytorch':
-        model = torch.load(model_path, map_location='cpu')
-        if hasattr(model, 'forward'):
-            # Get input shape from first layer
-            for layer in model.modules():
-                if isinstance(layer, (torch.nn.Conv2d, torch.nn.Linear)):
-                    if isinstance(layer, torch.nn.Conv2d):
-                        metadata["input_shape"] = [1, layer.in_channels, 224, 224]
-                    else:
-                        metadata["input_shape"] = [1, layer.in_features]
-                    metadata["input_dtype"] = str(next(model.parameters()).dtype)
-                    break
+        try:
+            model = torch.load(model_path, map_location='cpu')
+            if hasattr(model, 'forward'):
+                # Get input shape from first layer
+                for layer in model.modules():
+                    if isinstance(layer, (torch.nn.Conv2d, torch.nn.Linear)):
+                        if isinstance(layer, torch.nn.Conv2d):
+                            metadata["input_shape"] = [1, layer.in_channels, 224, 224]
+                        else:
+                            metadata["input_shape"] = [1, layer.in_features]
+                        metadata["input_dtype"] = str(next(model.parameters()).dtype)
+                        break
+        except Exception as e:
+            print(f"Warning: Could not extract PyTorch metadata: {e}")
+            # Set default values
+            metadata["input_shape"] = [1, 3, 224, 224]
+            metadata["input_dtype"] = "float32"
+    
     elif framework == 'onnx':
-        model = onnx.load(model_path)
-        input_info = model.graph.input[0]
-        metadata["input_shape"] = [dim.dim_value for dim in input_info.type.tensor_type.shape.dim]
-        metadata["input_dtype"] = onnx.TensorProto.DataType.Name(input_info.type.tensor_type.elem_type)
-        
-        for output in model.graph.output:
-            metadata["output_names"].append(output.name)
-            metadata["output_shapes"].append([dim.dim_value for dim in output.type.tensor_type.shape.dim])
-            metadata["output_dtypes"].append(onnx.TensorProto.DataType.Name(output.type.tensor_type.elem_type))
+        if ONNX_AVAILABLE:
+            try:
+                model = onnx.load(model_path)
+                input_info = model.graph.input[0]
+                metadata["input_shape"] = [dim.dim_value for dim in input_info.type.tensor_type.shape.dim]
+                metadata["input_dtype"] = onnx.TensorProto.DataType.Name(input_info.type.tensor_type.elem_type)
+                
+                for output in model.graph.output:
+                    metadata["output_names"].append(output.name)
+                    metadata["output_shapes"].append([dim.dim_value for dim in output.type.tensor_type.shape.dim])
+                    metadata["output_dtypes"].append(onnx.TensorProto.DataType.Name(output.type.tensor_type.elem_type))
+            except Exception as e:
+                print(f"Warning: Could not extract ONNX metadata: {e}")
+                # Set default values
+                metadata["input_shape"] = [1, 3, 224, 224]
+                metadata["input_dtype"] = "float32"
+        else:
+            # Set default values
+            metadata["input_shape"] = [1, 3, 224, 224]
+            metadata["input_dtype"] = "float32"
+    
+    elif framework == 'tensorflow':
+        if TENSORFLOW_AVAILABLE:
+            try:
+                # TensorFlow metadata extraction (basic implementation)
+                metadata["input_shape"] = [1, 224, 224, 3]  # Default shape for TF models (NHWC)
+                metadata["input_dtype"] = "float32"
+            except Exception as e:
+                print(f"Warning: Could not extract TensorFlow metadata: {e}")
+                # Set default values
+                metadata["input_shape"] = [1, 224, 224, 3]
+                metadata["input_dtype"] = "float32"
+        else:
+            # Set default values if TensorFlow is not available
+            metadata["input_shape"] = [1, 224, 224, 3]
+            metadata["input_dtype"] = "float32"
     
     return metadata
 
@@ -107,7 +152,7 @@ def validate_onnx_model(model_path: str) -> Tuple[bool, str]:
         input_dtype = input_info.type
         
         # Create dummy input
-        dummy_input = np.random.rand(*input_shape).astype(input_dtype)
+        dummy_input = np.random.rand(*input_shape).astype(np.dtype(input_dtype))
         
         # Run inference
         output = session.run(None, {input_info.name: dummy_input})
