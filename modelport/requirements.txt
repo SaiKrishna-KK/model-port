@@ -3,4 +3,6 @@ onnx>=1.12.0
 onnxruntime>=1.8.0
 numpy>=1.19.0
 tensorflow>=2.8.0  # Optional, for TensorFlow support
-typer>=0.9.0 
+typer>=0.9.0
+tvm>=0.10.0  # For native model compilation
+llvmlite>=0.39.0  # Required for TVM's LLVM backend 
