@@ -1,4 +1,6 @@
-typer
-torch
-onnx
-onnxruntime 
+torch>=1.8.0
+onnx>=1.12.0
+onnxruntime>=1.8.0
+numpy>=1.19.0
+tensorflow>=2.8.0  # Optional, for TensorFlow support
+typer>=0.9.0 
