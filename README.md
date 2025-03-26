@@ -21,6 +21,8 @@ We're excited to announce **ModelPort 2.0**, featuring native model compilation!
 - 🧰 **C++ Integration** - Run compiled models from C++ applications
 - 📊 **Benchmark Tools** - Performance testing and optimization
 
+> ⚠️ **Important Note**: The current version may contain some breaking changes in the native compilation pipeline. Version 2.1.0 (coming soon) will address these issues with improved stability and compatibility fixes.
+
 ## 🌟 Features
 
 - ✅ **Framework Auto-Detection** - Automatically detect PyTorch, ONNX, or TensorFlow models
