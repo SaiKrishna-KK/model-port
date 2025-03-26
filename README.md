@@ -178,7 +178,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - The PyTorch team for their excellent work on ONNX export
 - The ONNX community for creating a powerful standard for model interoperability
 - The Apache TVM team for their amazing compiler infrastructure
-- All contributors who have helped make this project better
 
 ## 📝 Changelog
 
