@@ -1,6 +1,6 @@
 # cli/run.py
 import typer
-from core.docker_runner import run_capsule
+from modelport.core.docker_runner import run_capsule
 
 def run_command(
     capsule_path: str = typer.Argument(..., help="Path to model capsule folder"),

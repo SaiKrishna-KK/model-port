@@ -1,6 +1,6 @@
 # cli/export.py
 import typer
-from core.exporter import export_model
+from modelport.core.exporter import export_model
 
 def export_command(
     model_path: str = typer.Argument(..., help="Path to PyTorch model (.pt)"),
