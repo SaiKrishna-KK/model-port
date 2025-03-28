@@ -1,4 +1,3 @@
-
 COMMIT_DATE_FIX.md
 date_filter.py
 # Date fix scripts
@@ -7,3 +6,6 @@ fix_*.py
 temp_filter.sh
 git_filter_commands.sh
 *.bak
+
+# But don't ignore the documentation
+!COMMIT_DATE_FIX.md
