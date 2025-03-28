@@ -7,6 +7,7 @@ import importlib.util
 import inspect
 import pathlib
 from typing import Optional, Dict, Any
+import json
 
 # Import utility functions conditionally
 def detect_framework(model_path: str) -> str:
@@ -93,12 +94,16 @@ def validate_onnx_model(model_path: str) -> tuple:
     except Exception as e:
         return False, str(e)
 
-def save_config(config: Dict[str, Any], output_dir: str) -> None:
-    """Save configuration to JSON file"""
-    import json
-    config_path = os.path.join(output_dir, "config.json")
-    with open(config_path, 'w') as f:
-        json.dump(config, f, indent=2)
+def save_config(metadata: Dict[str, Any], output_dir: str) -> None:
+    """Save metadata to config.json"""
+    config_file = os.path.join(output_dir, "config.json")
+    
+    # Normalize dtype if it's from torch
+    if isinstance(metadata.get("input_dtype"), str) and metadata["input_dtype"].startswith("torch."):
+        metadata["input_dtype"] = metadata["input_dtype"].replace("torch.", "")
+    
+    with open(config_file, 'w') as f:
+        json.dump(metadata, f, indent=2)
 
 def export_model(
     model_path: str,

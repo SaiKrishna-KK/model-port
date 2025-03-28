@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 # modelport.py - CLI entry point for ModelPort
 import typer
-from cli.export import export_command
-from cli.run import run_command
-from cli.deploy import deploy_command
-from cli.compile import compile_command
-from cli.run_native import run_native_command
+from modelport.cli.export import export_command
+from modelport.cli.run import run_command
+from modelport.cli.deploy import deploy_command
+from modelport.cli.compile import compile_command
+from modelport.cli.run_native import run_native_command
 
 # Create Typer app that can be used as a CLI or imported
 app = typer.Typer(help="ModelPort: Export and run ML models anywhere")
