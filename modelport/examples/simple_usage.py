@@ -44,7 +44,7 @@ def main():
     output_dir = 'library_test_export'
     
     # Use the imported modelport.export_model function
-    modelport.export_model(model_path, output_dir)
+    modelport.export_model(model_path, output_dir, force=True)
     
     print(f"✅ Model exported successfully to: {output_dir}")
     
