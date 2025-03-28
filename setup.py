@@ -6,8 +6,8 @@ with open("modelport/README.md", "r", encoding="utf-8") as fh:
 setup(
     name="modelport",
     version="0.1.0",
-    author="SaiKrishna-KK",
-    author_email="example@example.com",
+    author="Sai Krishna Vishnumolakala",
+    author_email="saikrishna.v1970@gmail.com",
     description="Export and run ML models anywhere",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -35,4 +35,7 @@ setup(
     package_data={
         "modelport": ["templates/*", "examples/*"],
     },
-) 
+)
+
+if __name__ == "__main__":
+    setup() 
