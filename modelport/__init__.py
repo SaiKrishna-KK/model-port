@@ -7,7 +7,7 @@ This package allows you to:
 3. Run models on different architectures using Docker
 """
 
-__version__ = "0.1.0"
+__version__ = "2.0.0"
 __author__ = "Sai Krishna Vishnumolakala"
 __email__ = "saikrishna.v1970@gmail.com"
 

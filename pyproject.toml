@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modelport"
+version = "2.0.0"
+description = "Export and run ML models anywhere"
+readme = "README.md"
+authors = [
+    {name = "Sai Krishna Vishnumolakala", email = "saikrishna.v1970@gmail.com"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=1.13.0",
+    "onnx>=1.12.0",
+    "onnxruntime>=1.13.1",
+    "typer[all]>=0.7.0",
+    "numpy>=1.21.0",
+    "docker>=6.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/SaiKrishna-KK/model-port"
+"Bug Tracker" = "https://github.com/SaiKrishna-KK/model-port/issues"
+
+[project.scripts]
+modelport = "modelport.modelport:app" 

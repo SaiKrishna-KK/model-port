@@ -114,8 +114,8 @@ When releasing a new version:
 3. Tag the release in git:
 
 ```bash
-git tag -a v0.1.0 -m "Release v0.1.0"
-git push origin v0.1.0
+git tag -a v2.0.0 -m "Release v2.0.0"
+git push origin v2.0.0
 ```
 
 ## Troubleshooting
