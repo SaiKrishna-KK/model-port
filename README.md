@@ -167,6 +167,14 @@ ModelPort is continuously evolving. Here's what we're planning for future releas
 - **Quantization**: INT8 and Mixed-Precision Support for compiled models
 - **More Hardware Targets**: Specialized acceleration for additional devices
 
+### ⚠️ What Might Break or Need Tuning (to be fixed in v2.1.0)
+| Case | Why |
+|------|-----|
+| ❌ Custom Layers (Python-only logic) | Need to be rewritten or converted to supported ops |
+| ❌ Rare ONNX ops (experimental) | TVM may not support obscure or very new ONNX ops |
+| ❌ Very dynamic input shapes | TVM prefers fixed shapes or limited shape ranges |
+| ❌ Training or backprop logic | ModelPort is for inference only, not training |
+
 For the complete roadmap, see the [Documentation](DOCUMENTATION.md#future-roadmap).
 
 ## 📝 License
@@ -182,7 +190,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ## 📝 Changelog
 
-### v2.0 (March 2026)
+### v2.0 (March 26 2025)
 - Added native compilation using Apache TVM
 - Added run-native command for compiled models
 - Added benchmark capabilities for performance testing
@@ -190,7 +198,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Support for multiple target architectures and devices
 - Comprehensive documentation for native compilation
 
-### v1.5 (March 2025)
+### v1.5 (March 25 2025)
 - Added framework auto-detection for PyTorch, ONNX, and TensorFlow models
 - Added model validation with `--test` flag
 - Implemented Docker deployment command
@@ -199,7 +207,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Fixed PyTorch dtype handling issues
 - Comprehensive stress testing and unit tests
 
-### v0.1.0 (March 2025)
+### v0.1.0 (March 24 2025)
 - Initial release
 - Basic PyTorch to ONNX export
 - Simple Docker container generation

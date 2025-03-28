@@ -12,3 +12,6 @@ date_fix_filter.sh
 *_filter_repo.py
 april_commits.txt
 remaining_april.txt
+
+# Don't ignore the documentation
+!COMMIT_DATE_FIX.md
