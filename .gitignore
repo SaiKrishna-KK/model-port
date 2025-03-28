@@ -1,11 +1,17 @@
-COMMIT_DATE_FIX.md
-date_filter.py
-# Date fix scripts
+# Date fix scripts and documentation
 fix_*.sh
 fix_*.py
+v2_fix_*.sh
+v2_fix_*.py
 temp_filter.sh
 git_filter_commands.sh
+date_filter.sh
+date_fix_filter.sh
 *.bak
+*date_fix.md
+*_filter_repo.py
+april_commits.txt
+remaining_april.txt
 
-# But don't ignore the documentation
+# Don't ignore the documentation
 !COMMIT_DATE_FIX.md
