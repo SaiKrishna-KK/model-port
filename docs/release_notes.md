@@ -1,5 +1,17 @@
 # ModelPort Release Notes
 
+## Version 2.0.1
+
+This maintenance release addresses packaging and PyPI publishing configuration issues.
+
+### What's New in v2.0.1:
+- Fixed license format in pyproject.toml to comply with PEP 621 specifications
+- Improved package metadata for PyPI compatibility
+- Resolved build issues affecting PyPI deployment
+- Updated GitHub Actions workflows for more reliable publishing
+
+All features and functionality from version 2.0.0 remain unchanged.
+
 ## Version 2.0.0
 
 ModelPort 2.0 features native model compilation! This release introduces Apache TVM integration for compiling models to platform-specific shared libraries that run without dependencies like Python or ONNX Runtime.
