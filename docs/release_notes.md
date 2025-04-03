@@ -1,10 +1,10 @@
 # ModelPort Release Notes
 
-## Version 2.0.1
+## Version 2.0.2
 
 This maintenance release addresses packaging and PyPI publishing configuration issues.
 
-### What's New in v2.0.1:
+### What's New in v2.0.2:
 - Fixed license format in pyproject.toml to comply with PEP 621 specifications
 - Improved package metadata for PyPI compatibility
 - Resolved build issues affecting PyPI deployment
