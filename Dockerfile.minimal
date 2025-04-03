@@ -1,0 +1,48 @@
+# Use Python base image
+FROM python:3.8-slim
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV TZ=UTC
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libgomp1 \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.txt \
+    && pip3 install --no-cache-dir \
+    torch \
+    torchvision \
+    onnx \
+    onnxruntime \
+    apache-tvm==0.12.0 \
+    ml_dtypes==0.2.0
+
+# Setup workdir
+WORKDIR /app
+COPY . /app/
+
+# Create a script to patch TVM for missing float4_e2m1fn
+RUN echo '#!/usr/bin/env python3\n\
+import sys\n\
+runtime_ctypes_path = "/usr/local/lib/python3.8/site-packages/tvm/_ffi/runtime_ctypes.py"\n\
+with open(runtime_ctypes_path, "r") as f:\n\
+    content = f.read()\n\
+\n\
+if "float4_e2m1fn" in content:\n\
+    modified = content.replace("DataType.NUMPY2STR[np.dtype(ml_dtypes.float4_e2m1fn)] = \\"float4_e2m1fn\\"", "# Patched: float4_e2m1fn not available")\n\
+    with open(runtime_ctypes_path, "w") as f:\n\
+        f.write(modified)\n\
+    print("Successfully patched TVM runtime_ctypes.py")\n\
+else:\n\
+    print("No patching needed for TVM runtime_ctypes.py")\n\
+' > /app/patch_tvm.py && chmod +x /app/patch_tvm.py && python3 /app/patch_tvm.py
+
+# Run tests by default
+CMD ["python3", "-m", "tests.run_tests", "--basic"] 

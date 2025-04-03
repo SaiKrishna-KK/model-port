@@ -1,33 +1,26 @@
-"""
-ModelPort: Export and run ML models anywhere.
-
-This package allows you to:
-1. Export PyTorch models to ONNX format
-2. Package models with inference code
-3. Run models on different architectures using Docker
-"""
+"""ModelPort - ML Model Deployment, Portability, and Compilation."""
 
 __version__ = "2.0.0"
-__author__ = "Sai Krishna Vishnumolakala"
-__email__ = "saikrishna.v1970@gmail.com"
 
-from modelport.core.exporter import export_model
-from modelport.core.docker_runner import run_capsule
-from modelport.core.deployer import deploy_capsule
+# Import submodules
+from modelport import core
+from modelport import export
+from modelport import compile
+from modelport import inference
+from modelport import utils
 
-# Only import compile_model if TVM is available
-try:
-    from modelport.core.compiler import compile_model
-    HAS_TVM = True
-except ImportError:
-    HAS_TVM = False
-    compile_model = None
+# Convenience functions
+from modelport.export import to_onnx
+from modelport.compile import compile_model
+from modelport.inference import run
 
-# Expose key functions directly at package level
 __all__ = [
-    "export_model",
-    "run_capsule",
-    "deploy_capsule",
+    "core",
+    "export",
+    "compile",
+    "inference",
+    "utils",
+    "to_onnx",
     "compile_model",
-    "HAS_TVM",
+    "run",
 ] 

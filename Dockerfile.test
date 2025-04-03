@@ -1,0 +1,71 @@
+# Stage 1: Build TVM
+FROM python:3.8-slim AS tvm-builder
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    git \
+    cmake \
+    build-essential \
+    llvm-dev \
+    libedit-dev \
+    libxml2-dev \
+    python3-dev \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python build dependencies
+RUN pip3 install --no-cache-dir \
+    cython \
+    numpy \
+    decorator \
+    attrs \
+    typing-extensions
+
+# Build TVM
+RUN git clone --recursive https://github.com/apache/tvm /tvm \
+    && cd /tvm \
+    && mkdir build \
+    && cp cmake/config.cmake build \
+    && cd build \
+    && cmake -DUSE_LLVM=ON .. \
+    && make -j$(nproc)
+
+# Stage 2: Final image
+FROM python:3.8-slim
+
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV TZ=UTC
+ENV PYTHONPATH=/tvm/python:${PYTHONPATH}
+
+# Copy TVM from builder
+COPY --from=tvm-builder /tvm /tvm
+
+# Install runtime dependencies
+RUN apt-get update && apt-get install -y \
+    libgomp1 \
+    git \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+COPY requirements.txt /tmp/requirements.txt
+RUN pip3 install --no-cache-dir -r /tmp/requirements.txt \
+    && pip3 install --no-cache-dir \
+    torch \
+    torchvision \
+    onnx \
+    onnxruntime \
+    ml_dtypes==0.2.0
+
+# Patch TVM to handle missing float4_e2m1fn
+RUN sed -i 's/DataType.NUMPY2STR\[np.dtype(ml_dtypes.float4_e2m1fn)\] = "float4_e2m1fn"/# Patched: DataType.NUMPY2STR\[np.dtype(ml_dtypes.float4_e2m1fn)\] = "float4_e2m1fn"/g' /tvm/python/tvm/_ffi/runtime_ctypes.py \
+    && cd /tvm/python && pip3 install --no-cache-dir -e .
+
+# Create test directory
+WORKDIR /app
+COPY . /app/
+
+# Run tests by default
+CMD ["python3", "-m", "tests.run_tests", "--all"] 
