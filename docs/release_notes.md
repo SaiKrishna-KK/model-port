@@ -1,37 +1,36 @@
-# ModelPort v1.5 Release Notes
+# ModelPort Release Notes
 
-We're excited to announce **ModelPort 1.5**, our newest release with significant improvements focused on model portability and deployment flexibility!
+## Version 2.0.0
 
-## What's New in v1.5:
+ModelPort 2.0 features native model compilation! This release introduces Apache TVM integration for compiling models to platform-specific shared libraries that run without dependencies like Python or ONNX Runtime.
 
-- ✨ **Framework Auto-Detection** - ModelPort now automatically detects PyTorch, ONNX, and TensorFlow models
-- 🧪 **Model Validation with `--test` Flag** - One-step validation that your model works correctly  
-- 🐳 **Docker Deployment Command** - Push your models to any Docker registry
-- 🚀 **GPU-Enabled Docker Support** - Built-in CUDA support for accelerated inference
-- 📋 **Standardized Capsule Format V1** - Well-defined metadata structure for better interoperability
+### What's New in v2.0:
+- **Native Compilation** - Compile ONNX models to platform-specific native libraries
+- **Zero-Dependency Execution** - Run models without Python or ONNX Runtime
+- **Cross-Platform Support** - Compile for x86_64, ARM64, and more
+- **GPU Acceleration** - CUDA, Metal, and OpenCL support for compiled models
+- **C++ Integration** - Run compiled models from C++ applications
+- **Benchmark Tools** - Performance testing and optimization
+- **TVM Integration** - Apache TVM support for model compilation
+- **Improved Testing** - Docker-based testing infrastructure
+- **Comprehensive Documentation** - Detailed guides and examples
 
-## Comprehensive Testing
+### Known Issues
+- Batch inference on ARM architecture (M1/M2 Macs) may have limitations
+- Some TVM optimizations may show warnings on ARM platforms
+- TVM compatibility requires specific versions (0.12.0 with ml_dtypes==0.2.0)
 
-This release has undergone extensive testing including:
-- ✅ Comprehensive unit tests covering all functionality
-- ✅ Edge case handling for tiny models, complex models, and mixed data types
-- ✅ Stress testing with multiple model outputs and custom dtypes
-- ✅ End-to-end validation with ResNet18 and other common architectures
+## Version 1.5.0
 
-## Full Changelog
+- Added deploy command for Docker registry integration
+- Added GPU support for Docker containers
+- Improved framework auto-detection
+- Added test flag for model validation
+- Standardized capsule format
 
-- Added framework auto-detection for PyTorch, ONNX, and TensorFlow models
-- Added model validation with `--test` flag
-- Implemented Docker deployment command
-- Added GPU-enabled Docker support
-- Created standardized Capsule Format V1 spec
-- Fixed PyTorch dtype handling issues
-- Comprehensive stress testing and unit tests
+## Version 0.1.0
 
-## Breaking Changes
-
-None! This release maintains backward compatibility with previous versions.
-
-## Getting Started
-
-Check out the README.md for installation and usage instructions. 
+- Initial release
+- Basic ONNX export functionality
+- Docker container generation
+- Cross-platform support 
