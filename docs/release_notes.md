@@ -1,5 +1,14 @@
 # ModelPort Release Notes
 
+## Version 2.0.3
+
+This release introduces a package name change from "modelport" to "model-port" to improve PyPI compatibility.
+
+### What's New in v2.0.3:
+- Changed package name to "model-port" to avoid conflicts on PyPI/TestPyPI
+- Retained all functionality from version 2.0.2
+- Improved installation reliability
+
 ## Version 2.0.2
 
 This maintenance release addresses packaging and PyPI publishing configuration issues.
@@ -45,4 +54,8 @@ ModelPort 2.0 features native model compilation! This release introduces Apache 
 - Initial release
 - Basic ONNX export functionality
 - Docker container generation
-- Cross-platform support 
+- Cross-platform support
+
+## Version 2.0.4 (YYYY-MM-DD)
+
+*   **Fix:** Changed `apache-tvm` dependency from `0.12.0` to `0.11.1` due to unavailability of `0.12.0` on PyPI for some architectures. 
