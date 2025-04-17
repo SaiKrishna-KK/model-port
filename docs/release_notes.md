@@ -1,4 +1,9 @@
 # ModelPort Release Notes
+
+## Version 2.0.6 (YYYY-MM-DD)
+
+*   **Docs:** Overhauled `README.md` for improved clarity, structure, and user guidance. Added sections for troubleshooting and contributing.
+
 ## Version 2.0.5 
 
 *   **Refactor:** Made `apache-tvm` an optional dependency.
