@@ -1,4 +1,12 @@
 # ModelPort Release Notes
+## Version 2.0.5 
+
+*   **Refactor:** Made `apache-tvm` an optional dependency.
+*   **Info:** Users needing TVM features must now install `apache-tvm` separately, preferably by following the official TVM installation guide (often requires building from source) due to the lack of universal pre-built wheels on PyPI.
+
+## Version 2.0.4 
+
+*   **Fix (Attempted):** Changed `apache-tvm` dependency from `0.12.0` to `0.11.1` due to unavailability of `0.12.0` on PyPI for some architectures. (Note: `0.11.1` was also found to be unavailable for many platforms via pip.) 
 
 ## Version 2.0.3
 
@@ -56,11 +64,3 @@ ModelPort 2.0 features native model compilation! This release introduces Apache 
 - Docker container generation
 - Cross-platform support
 
-## Version 2.0.5 (YYYY-MM-DD)
-
-*   **Refactor:** Made `apache-tvm` an optional dependency.
-*   **Info:** Users needing TVM features must now install `apache-tvm` separately, preferably by following the official TVM installation guide (often requires building from source) due to the lack of universal pre-built wheels on PyPI.
-
-## Version 2.0.4 (YYYY-MM-DD)
-
-*   **Fix (Attempted):** Changed `apache-tvm` dependency from `0.12.0` to `0.11.1` due to unavailability of `0.12.0` on PyPI for some architectures. (Note: `0.11.1` was also found to be unavailable for many platforms via pip.) 
