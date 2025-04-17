@@ -1,16 +1,14 @@
 # ModelPort 🚀
 
-[![PyPI version](https://badge.fury.io/py/modelport.svg)](https://badge.fury.io/py/modelport)
-[![Python Version](https://img.shields.io/pypi/pyversions/modelport)](https://pypi.org/project/modelport/)
-[![License](https://img.shields.io/pypi/l/modelport)](https://github.com/SaiKrishna-KK/model-port/blob/main/LICENSE)
+[![PyPI version](https://badge.fury.io/py/model-port.svg)](https://badge.fury.io/py/model-port)
+[![Python Version](https://img.shields.io/pypi/pyversions/model-port)](https://pypi.org/project/model-port/)
+[![License](https://img.shields.io/pypi/l/model-port)](https://github.com/SaiKrishna-KK/model-port/blob/main/LICENSE)
 
-**ModelPort** makes machine learning model deployment simple, portable, and architecture-independent.
+**ModelPort** streamlines machine learning model deployment, making it simple, portable, and architecture-independent.
 
-![ModelPort Banner](https://img.shields.io/badge/ModelPort-v2.0-blue)
+Easily deploy your ML models anywhere — from cloud servers to edge devices — regardless of the underlying hardware or operating system. ModelPort simplifies exporting models to ONNX and provides tools for compiling them into efficient, platform-specific executables (requires separate TVM installation).
 
-**Deploy your ML models anywhere** — regardless of architecture or operating system. ModelPort simplifies the process of exporting models to ONNX format and compiling them for deployment on different platforms.
-
-## 📣 Version 2.0 Release 
+## 📣 Key Features (Originating from v2.0)
 
 ModelPort 2.0 features native model compilation! This release introduces Apache TVM integration for compiling models to platform-specific shared libraries that run without dependencies like Python or ONNX Runtime.
 
